@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Album;
 use App\Models\Band;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BandController extends Controller
 {
@@ -20,32 +24,66 @@ class BandController extends Controller
         return view('home.index', compact('allBands'));
     }
 
+   /* public function viewBand($id)
+    {
+        $band = Band::where('id', $id) -> first();
+
+        return view('bands.band_view', compact('band'));
+    } */
+
+    public function viewBand($id)
+    {
+        /*$band = Band::with('albuns')->findOrFail($id);
+        $albuns = $band->albuns;*/
+
+        $admin = User::TYPE_ADMIN;
+
+        $band = Band::findOrFail($id);
+        $album = Album::where('banda_id', $id)->first();
+
+        return view('bands.band_view', compact('band', 'album', 'admin'));
+    }
+
     public function storeBand(Request $request){
+        $photo = null;
 
-    $band = new Band; //criando uma variável e instanciando o Model Band;
+        if (isset($request->id)) { //se já existir a banda será um update, se ainda não exitir a banda será create
+            $request->validate([
+                'name' => 'string|max:50',
+            ]);
 
-    //preenchendo os dados obrigatorios no banco de dados:
+            if ($request->hasFile('photo')){
+                $photo = Storage::putFile('bands/', $request->photo);
+            }
 
-        $band->name = $request->name;
+            Band::where('id', $request->id)
+                ->update([
+                    'name' => $request->name,
+                    'photo' => $photo,
+                ]);
 
-        //image upload;
-        if ($request->hasFile('photo') && $request->file('photo') -> isValid()) {
+            return redirect() ->route('dashboard') ->with('message', 'Band '. $request->name.' atualizado com sucesso');
+        } else {
+            $request->validate([
+                'name' => 'string|max:50',
+                'photo' => 'image'
+            ]);
 
-            $requestImage = $request->photo;
+            if ($request->hasFile('photo')){
+                $photo = Storage::putFile('bands/', $request->photo);
+            }
 
-            $extension = $requestImage->extension();
+            $adminId = Auth::id();
 
-            $imageName = md5($requestImage->getClientOriginalName().strtotime("now")). "." .$extension;
+            Band::insert([
+                'name' => $request->name,
+                'photo' => $photo,
+                'admin_id' => $adminId,
+            ]);
 
-            //adicionando a img a pasta: salva a img nesse path, com esse nome
-            $requestImage->move(public_path('img/events'), $imageName);
-
-            $band->photo = $imageName;
-
-            //terminar amanha!!
+            return redirect() ->route('dashboard') ->with('message', 'Banda '. $request->name.' adicionada com sucesso');
 
         }
-
-
     }
+
 }

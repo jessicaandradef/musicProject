@@ -1,13 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Dancing+Script:wght@400..700&display=swap');
 .gradient-custom {
-    /* fallback for old browsers */
     background: #6a11cb;
 
-    /* Chrome 10-25, Safari 5.1-6 */
     background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
 
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
 }
+
+.logo-detail{
+    font-size: 14px;
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.font-detail{
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.link-detail{
+    text-decoration: none;
+    color: white;
+    text-transform: uppercase;
+}
+
+.btn-detail{
+    background: linear-gradient(to right, rgb(74, 6, 166), rgb(9, 106, 211))
+
+}
+.background-body{
+    background: linear-gradient(to right, rgb(164, 143, 194), rgb(138, 177, 218))
+}
+
+
 
 footer{
     background-color: #6a11cb;

@@ -13,7 +13,7 @@
 <header>
     <nav class="navbar navbar-expand-lg bg-body-tertiary ">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">M U S I F Y </a>
+            <a class="navbar-brand font-detail" href="#">M U S I F Y <span class="logo-detail">música para todas as pessoas</span> </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -38,7 +38,7 @@
                             <form action="{{route('logout')}}" method="POST">
 
                                 @csrf
-                                <button type="submit" class="btn btn-primary">Logout</button>
+                                <button type="submit" class="btn btn-primary btn-detail">Logout</button>
 
                             </form>
                         </li>
@@ -69,7 +69,7 @@
                 @endif
 </header>
 
-<main>
+<main class="background-body">
     <div class="container-fluid">
         <div class="row">
 
@@ -85,7 +85,7 @@
 
     <!-- Footer -->
     <footer
-        class=" footer text-center text-lg-start text-white fixed-bottom"
+        class=" footer text-center text-lg-start text-white "
     >
         <!-- Grid container -->
         <div class="container p-4 pb-0">

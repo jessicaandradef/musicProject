@@ -13,8 +13,6 @@ class UserController extends Controller
         return view('users.user_view');
     }
 
-
-
     public function users()
     {
         $allUsers = User::get()->all();
@@ -47,7 +45,7 @@ class UserController extends Controller
                     'name' => $request->name,
                 ]);
 
-            return redirect() -> route('home.all')
+            return redirect() -> route('users.dashboard_user')
                 ->with('message', 'User' . $request->name.'atualizado com sucesso!');
         } else{
 
@@ -63,7 +61,7 @@ class UserController extends Controller
                 'password' => Hash::make($request -> password),
             ]);
 
-            return redirect() -> route('users.all') -> with('message', 'User adicionado com sucesso');
+            return redirect() -> route('users.dashboard_user') -> with('message', 'User adicionado com sucesso');
         }
     }
 }
