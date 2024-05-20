@@ -13,7 +13,7 @@ class AlbumController extends Controller
     {
         $allBands = Band::get()->all();
 
-        return view('bands.create_album', compact('allBands'));
+        return view('albuns.create_album', compact('allBands'));
     }
 
     public function storeAlbum(Request $request){
@@ -39,7 +39,44 @@ class AlbumController extends Controller
 
             ]);
 
-        return redirect() ->route('dashboard') ->with('message', 'Album '. $request->name.' adicionado com sucesso');
+        return redirect() ->route('dashboard') ->with('msg', 'Album '. $request->name.' adicionado com sucesso');
 
         }
+
+    public function editAlbum(Request $request, $id){
+
+        $album = Album::findOrFail($id);
+        $banda = $album->banda;
+
+        if ($request->isMethod('post')) {
+
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:50',
+                'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
+
+            if ($request->has('name')){
+                $album->name = $request->name;
+            }
+
+            if ($request->hasFile('photo')) {
+                // Apagar a imagem antiga se existir
+                if ($album->photo) {
+                    Storage::disk('public')->delete($album->photo);
+                }
+
+                // Fazer upload da nova imagem
+                $photoPath = $request->file('photo')->store('albuns', 'public');
+                $album->photo = $photoPath;
+            }
+
+            $album->name = $request->name;
+            $album->save();
+
+            return redirect('/home')->with('msg', 'Album atualizada com sucesso!');
+        }
+
+        return view('albuns.edit_album', compact('album', 'banda'));
+
+    }
 }

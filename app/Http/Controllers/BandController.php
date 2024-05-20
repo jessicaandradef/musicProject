@@ -20,16 +20,19 @@ class BandController extends Controller
 
     public function getAllBands()
     {
+        $admin = User::TYPE_ADMIN;
         $allBands = Band::get()->all();
-        return view('home.index', compact('allBands'));
+        return view('home.index', compact('allBands', 'admin'));
     }
 
-   /* public function viewBand($id)
-    {
-        $band = Band::where('id', $id) -> first();
+    public function deleteBand($id) {
 
-        return view('bands.band_view', compact('band'));
-    } */
+       $admin = User::TYPE_ADMIN;
+        Album::where('banda_id', $id)->delete();
+        Band::where('id', $id)->delete();
+
+        return redirect() -> route('home');
+    }
 
     public function viewBand($id)
     {
@@ -47,7 +50,7 @@ class BandController extends Controller
     public function storeBand(Request $request){
         $photo = null;
 
-        if (isset($request->id)) { //se já existir a banda será um update, se ainda não exitir a banda será create
+      /*  if (isset($request->id)) { //se já existir a banda será um update, se ainda não exitir a banda será create
             $request->validate([
                 'name' => 'string|max:50',
             ]);
@@ -63,7 +66,7 @@ class BandController extends Controller
                 ]);
 
             return redirect() ->route('dashboard') ->with('message', 'Band '. $request->name.' atualizado com sucesso');
-        } else {
+        } else {*/
             $request->validate([
                 'name' => 'string|max:50',
                 'photo' => 'image'
@@ -81,9 +84,42 @@ class BandController extends Controller
                 'admin_id' => $adminId,
             ]);
 
-            return redirect() ->route('dashboard') ->with('message', 'Banda '. $request->name.' adicionada com sucesso');
+            return redirect() ->route('home') ->with('message', 'Banda '. $request->name.' adicionada com sucesso');
 
-        }
+        //}
     }
+
+    public function editBand(Request $request, $id){
+
+        $banda = Band::findOrFail($id);
+
+        if ($request->isMethod('post')) {
+
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:50',
+                'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
+
+            if ($request->hasFile('photo')) {
+                // Apagar a imagem antiga se existir
+                if ($banda->photo) {
+                    Storage::disk('public')->delete($banda->photo);
+                }
+
+                // Fazer upload da nova imagem
+                $photoPath = $request->file('photo')->store('bands', 'public');
+                $banda->photo = $photoPath;
+            }
+
+            $banda->name = $request->name;
+            $banda->save();
+
+            return redirect('/home')->with('msg', 'Banda atualizada com sucesso!');
+        }
+
+        return view('bands.band_edit', compact('banda'));
+
+    }
+
 
 }

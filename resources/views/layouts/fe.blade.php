@@ -69,7 +69,7 @@
                 @endif
 </header>
 
-<main class="background-body">
+<main class="background-body vh-100">
     <div class="container-fluid">
         <div class="row">
 

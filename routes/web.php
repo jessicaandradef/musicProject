@@ -7,12 +7,10 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Rotas iniciais:
 
+Route::get('/', [BandController::class, 'getAllBands'])->name('home');
 Route::get('/home', [BandController::class, 'getAllBands'])->name('home');
-
 
 //Rotas USERS:
 
@@ -24,13 +22,16 @@ Route::get('/dashboard', [DashboardController::class, 'dashboardPage'])->name('d
 
 //Rotas BANDS:
 
-Route::get('/create-band', [BandController::class, 'createBand'])->name('createBand');
-Route::post('/store-band', [BandController::class, 'storeBand'])->name('store.band');
+Route::get('/create-band', [BandController::class, 'createBand'])->name('createBand')->middleware('auth');
+Route::post('/store-band', [BandController::class, 'storeBand'])->name('store.band')->middleware('auth');
 Route::get('bands/{id}', [BandController::class, 'viewBand'])->name('band.view');
+Route::get('delete-band/{id}', [BandController::class, 'deleteBand'])->name('delete.band')->middleware('auth');
+Route::match(['get', 'post'],'edit-band/{id}', [BandController::class, 'editBand'])->name('edit.band')->middleware('auth');
 
 //Rotas ALBUNS:
 
-Route::get('/create-album', [AlbumController::class, 'createAlbum'])->name('createAlbum');
-Route::post('/store-album', [AlbumController::class, 'storeAlbum'])->name('store.album');
+Route::get('/create-album', [AlbumController::class, 'createAlbum'])->name('createAlbum')->middleware('auth');
+Route::post('/store-album', [AlbumController::class, 'storeAlbum'])->name('store.album')->middleware('auth');
+Route::match(['get', 'post'],'edit-album/{id}', [AlbumController::class, 'editAlbum'])->name('edit.album')->middleware('auth');
 
 

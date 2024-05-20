@@ -8,10 +8,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    //
-    public function usersView(){
-        return view('users.user_view');
-    }
 
     public function users()
     {
@@ -60,8 +56,7 @@ class UserController extends Controller
                 'email' => $request ->email,
                 'password' => Hash::make($request -> password),
             ]);
-
-            return redirect() -> route('users.dashboard_user') -> with('message', 'User adicionado com sucesso');
+            return redirect() -> route('login') -> with('msg', 'Nova conta criada com sucesso');
         }
     }
 }

@@ -2,7 +2,10 @@
 
 @section('content')
 
-    <div class="mt-5 mb-5 d-flex justify-content-center">
+    <h1 class="mt-5 text-center font-detail">Adicione novo álbum:</h1>
+
+    <div class="mt-3 mb-5 d-flex justify-content-center">
+
         <form method="POST" action="{{route('store.album')}}" enctype="multipart/form-data" class="w-70 font-detail fs-6">    <!-- rota para onde será enviada os dados -->
             @csrf   <!-- helper de validação do Laravel-->
 
@@ -42,10 +45,9 @@
             @enderror
 
             <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-detail text-white my-3 ">Add Álbum</button>
+                <button type="submit" class="btn btn-detail text-white my-3 ">Adicionar Álbum</button>
 
             </div>
-
         </form>
     </div>
 
