@@ -3,7 +3,6 @@
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\BandController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\IndexController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,8 +15,7 @@ Route::get('/home', [BandController::class, 'getAllBands'])->name('home');
 
 Route::get('users', [UserController::class, 'users'])->name('users.all');
 Route::get('/create-user', [UserController::class, 'createUser'])->name('users.create');
-Route::post('/store-user', [UserController::class, 'storeUser'])->name('store.user');
-Route::get('/users-view', [UserController::class, 'usersView']);
+Route::post('/store-user', [UserController::class, 'storeUser'])->name('store.user')->middleware('auth');
 Route::get('/dashboard', [DashboardController::class, 'dashboardPage'])->name('dashboard'); //só entra nessa rota se o usuario estiver autenticado
 
 //Rotas BANDS:

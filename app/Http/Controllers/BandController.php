@@ -36,37 +36,18 @@ class BandController extends Controller
 
     public function viewBand($id)
     {
-        /*$band = Band::with('albuns')->findOrFail($id);
-        $albuns = $band->albuns;*/
 
         $admin = User::TYPE_ADMIN;
 
         $band = Band::findOrFail($id);
         $album = Album::where('banda_id', $id)->first();
 
-        return view('bands.band_view', compact('band', 'album', 'admin'));
+        return view('bands.view_band', compact('band', 'album', 'admin'));
     }
 
     public function storeBand(Request $request){
         $photo = null;
 
-      /*  if (isset($request->id)) { //se já existir a banda será um update, se ainda não exitir a banda será create
-            $request->validate([
-                'name' => 'string|max:50',
-            ]);
-
-            if ($request->hasFile('photo')){
-                $photo = Storage::putFile('bands/', $request->photo);
-            }
-
-            Band::where('id', $request->id)
-                ->update([
-                    'name' => $request->name,
-                    'photo' => $photo,
-                ]);
-
-            return redirect() ->route('dashboard') ->with('message', 'Band '. $request->name.' atualizado com sucesso');
-        } else {*/
             $request->validate([
                 'name' => 'string|max:50',
                 'photo' => 'image'
@@ -85,8 +66,6 @@ class BandController extends Controller
             ]);
 
             return redirect() ->route('home') ->with('message', 'Banda '. $request->name.' adicionada com sucesso');
-
-        //}
     }
 
     public function editBand(Request $request, $id){
@@ -117,7 +96,7 @@ class BandController extends Controller
             return redirect('/home')->with('msg', 'Banda atualizada com sucesso!');
         }
 
-        return view('bands.band_edit', compact('banda'));
+        return view('bands.edit_band', compact('banda'));
 
     }
 

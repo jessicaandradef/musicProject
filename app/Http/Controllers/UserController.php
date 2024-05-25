@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
 
+    /**Função teste para usuarios, não foi utilizada, apenas para teste
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
+     */
     public function users()
     {
         $allUsers = User::get()->all();
@@ -19,6 +22,11 @@ class UserController extends Controller
         return view('users.create_user'); //vai retornar a view com a pagina e com o formulário;
     }
 
+    /** Método para verificar na view os dados do usuario e testar se os dados que estão sendo inseridos na BD estão corretos;
+     * função apenas para teste.
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
+     */
     public function viewUser($id)
     {
         $user = User::where('id', $id) ->first();

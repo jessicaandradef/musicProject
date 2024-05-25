@@ -9,10 +9,10 @@
         <div class="container mt-5 mb-5">
             <div class="row">
                 @foreach($allBands as $band)
-                    <div class="col-md-3">
-                        <div class="card mb-2">
+                    <div class="col-md-3 d-flex flex-column justify-content-between align-items-center ">
+                        <div class="card mb-2 h-100">
                             {{-- @dd($band->photo) --}}
-                            <img src="{{$band->photo ? asset('storage/'.$band->photo) : asset('img/noimgpng.png')}}" class="card-img-top " alt="Foto da banda"/>
+                            <img src="{{$band->photo ? asset('storage/'.$band->photo) : asset('img/noimgpng.png')}}" class="card-img-top" alt="Foto da banda"/>
                             <div class="card-body">
                                 <h5 class="card-title">{{$band->name}}</h5>
                                 <p class="card-text">Número de álbuns: {{count($band->albuns)}}</p>
